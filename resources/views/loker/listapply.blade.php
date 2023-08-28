@@ -73,18 +73,25 @@
                                 </tr>
                             </thead>
                             <tbody>
+                                @foreach ($applys as $index => $apply)
+                                    <tr>
+                                        <td>{{ $index + 1 }}</td>
+                                        <td>{{ $apply->id_loker }}</td>
+                                        <td>{{ $apply->name }}</td>
+                                        <td>{{ $apply->birth }}</td>
+                                        <td>1</td>
+                                        <td>1</td>
 
-                                <tr>
-                                    <td>No</td>
-                                    <td>ID Loker</td>
-                                    <td>Nama User</td>
-                                    <td>TTL</td>
-                                    <td>Resume</td>
-                                    <td>CV</td>
-                                    <td>status</td>
-                                    <td>Action</td>
-                                </tr>
-
+                                        <td>
+                                            @if ($apply->status == 1)
+                                                <span class="badge badge-success">terdaftar</span>
+                                            @else
+                                                <span class="badge badge-warning">Tidak aktif</span>
+                                            @endif
+                                        </td>
+                                        <td>1</td>
+                                    </tr>
+                                @endforeach
                             </tbody>
                         </table>
                     </div>

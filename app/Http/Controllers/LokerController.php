@@ -3,12 +3,14 @@
 namespace App\Http\Controllers;
 
 use App\Models\cabang;
+use Illuminate\Support\Facades\DB;
 use App\Models\Departemen;
 use App\Models\Loker;
 use App\Models\Skills;
 use App\Models\Province;
 use App\Models\District;
 use App\Models\Regency;
+use App\Models\Apply;
 use Illuminate\Http\Request;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
@@ -36,6 +38,7 @@ class LokerController extends Controller
 
         return view('landing.lokerlandingdetail', compact('loker'));
     }
+
     public function applyLandingLoker($id)
     {
         $loker = Loker::findOrFail($id);
@@ -45,6 +48,69 @@ class LokerController extends Controller
         $user= Auth::user();
         return view('landing.lokerapply', compact('loker','provinsi','user'));
     }
+
+    
+    public function applyLandingLokerStore(request $request)
+    {
+                    // Retrieve input data from the request
+            $user = Auth::user()->id;
+            $nama = Auth::user()->name;
+            $loker =$request->input('id_loker');
+            $noloker =$request->input('no_loker');
+            $jk = $request->input('jenis_kelamin');
+            $ttl = $request->input('ttl');
+            $id_provinsi = $request->input('provinsi');
+            $id_kota = $request->input('kota');
+            $id_kecamatan = $request->input('kecamatan');
+
+            if ($request->hasFile('pasphoto')) {
+                $file = $request->file('pasphoto');
+                $date = date('y-m');
+                $tujuan_upload = 'Photo/'.$date;
+                $nama_file = "{$nama}.{$file->getClientOriginalExtension()}";
+                $file->move($tujuan_upload, $nama_file);
+                $pasphoto = $nama_file;
+            } else {
+                $pasphoto = null;
+            }
+
+            if ($request->hasFile('resume')) {
+                $file = $request->file('resume');
+                $date = date('y-m');
+                $tujuan_upload = 'Resume/'.$date;
+                $nama_file = "{$nama}.{$file->getClientOriginalExtension()}";
+                $file->move($tujuan_upload, $nama_file);
+                $resume = $nama_file;
+            } else {
+                $resume = null;
+            }
+
+            $coverletter = $request->input('coverletter');
+
+            // Create an instance of the Apply model
+            $apply = new Apply();
+
+            // Fill the instance with the validated data
+            $apply->id_user = $user;
+            $apply->id_loker = $loker;
+            $apply->gender = $jk;
+            $apply->birth = $ttl;
+            $apply->id_provinsi = $id_provinsi;
+            $apply->id_kota = $id_kota;
+            $apply->id_kecamatan =$id_kecamatan;
+            $apply->pasphoto = $pasphoto;
+            $apply->resume = $resume;
+            $apply->coverletter = $coverletter;
+            $apply->status = 1;
+            // Add other fields as needed
+
+            // Save the instance to the database
+            $apply->save();
+
+    // Redirect ke halaman yang sesuai setelah menyimpan data
+    return redirect()->route('index');
+    }
+
 
     public function getkota(request $request){
         $id_provinsi = $request->id_provinsi;
@@ -213,8 +279,22 @@ class LokerController extends Controller
 
     public function showListApply()
     {
-        $lokers=Loker::where('id_cabang','=',getUserIDCabang())->get();
-        return view('loker.listapply',compact('lokers'));
+        $applys= DB::table('tb_apply')
+        ->join('users','tb_apply.id_user','=','users.id')
+        ->join('tb_loker','tb_apply.id_loker','=','tb_loker.id')
+        ->select('tb_apply.*','tb_loker.id_loker','users.*')
+        ->get();
+        return view('loker.listapply',compact('applys'));
+
+
+        
+        // $users = DB::table('tb_login')
+        //     ->join('tb_cabang', 'tb_login.cabang', '=', 'tb_cabang.id')
+        //     ->select('tb_login.*', 'tb_cabang.ket', 'tb_cabang.cabang')
+        //     ->get();
+
+        // // $users = User::with('cabang')->get();
+        // return view('Masterdata.user.user', compact('users'));
     }
 
 }

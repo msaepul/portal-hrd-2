@@ -100,5 +100,21 @@ if (!function_exists('getNameSkill')) {
             return null; // Nilai default jika skill tidak ditemukan
         }
     }
+
+
 }
 
+if (!function_exists('isUserInLoker')) {
+    function isUserInLoker($userid, $loker) {
+        $apply = Apply::all();
+        $loker = Loker::all();
+        $user = User::all();
+        foreach ($loker as $l) {
+            if ($apply->id_user === $userid && $apply->id_loker === $loker ) { // Ganti 'userid' dengan properti yang sesuai dalam data loker
+                return false;
+            }
+        }
+        return true;
+    }
+
+}

@@ -19,7 +19,10 @@ use App\Http\Controllers\Notif;
 
 Route::get('/', [LokerController::class, 'index'])->name('index');
 Route::get('/lokers/{id}', [LokerController::class, 'detailLandingLoker'])->name('landingloker');
-
+Route::get('/logout', function () {
+    Auth::logout();
+    return redirect('/'); // Ganti dengan halaman login yang sesuai
+})->name('logout');
 
 
 //auth
@@ -38,6 +41,8 @@ Route::get('/otpresend', [Notif::class, 'resendOtp'])->name('resendotp');
 Route::middleware(['auth'])->group(function () {
 
 Route::get('/lokers/{id}/apply', [LokerController::class, 'applyLandingLoker'])->name('applyloker');
+Route::post('/lokers/post/apply', [LokerController::class, 'applyLandingLokerStore'])->name('applyloker.store');
+
 Route::post('getkota', [LokerController::class, 'getkota'])->name('getkota');
 Route::post('getkecamatan', [LokerController::class, 'getkecamatan'])->name('getkecamatan');
 Route::get('/dashboard', [AuthController::class, 'dashboard'])->name('dashboard');

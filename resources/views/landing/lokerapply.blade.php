@@ -32,7 +32,7 @@
         </div>
     </div>
     <section class="py-100 section-nucleo-icons bg-white overflow-hidden">
-        <form action="{{ route('addloker.store') }}" method="POST">
+        <form action="{{ route('applyloker.store', $loker->id) }}" method="POST" enctype="multipart/form-data">
             @csrf
             <div class="container">
                 <div class="row">
@@ -41,7 +41,7 @@
                         <div class="row">
                             <div class="col-lg-3">
                                 <br>
-                                <h3 style="color: #2e0e00">Data Pribadi</h3>
+                                <h3 style="color: #2e0e00">Data Pribadi {{ $loker->id_loker }}</h3>
                             </div>
                             <div class="col-lg-9">
                                 <br>
@@ -49,27 +49,29 @@
                                     <div class="col-md-12 mb-3">
                                         <div class="form-row">
                                             <div class="col-md-12 mb-3">
-                                                <label class="form-control-label" for="validationCustom01">Nama
+                                                <label class="form-control-label" for="nama">Nama
                                                     Lengkap</label>
-                                                <input type="text" class="form-control" id="validationCustom01"
+                                                <input type="text" class="form-control" id="nama"
                                                     value="{{ $user->name }}" placeholder="First name" disabled required>
                                                 <div class="valid-feedback">
                                                     Looks good!
                                                 </div>
                                             </div>
                                             <div class="col-md-12 mb-3">
-                                                <label class="form-control-label" for="validationCustom01">E-mail</label>
-                                                <input type="email" class="form-control" id="validationCustom01"
+                                                <label class="form-control-label" for="email">E-mail</label>
+                                                <input type="email" class="form-control" id="email"
                                                     placeholder="Alamat Email" value="{{ $user->email }}" disabled
                                                     required>
+                                                <input type="hidden" name="id_loker" value="{{ $loker->id }}">
+                                                <input type="hidden" name="no_loker" value="{{ $loker->id_loker }}">
                                                 <div class="valid-feedback">
                                                     Looks good!
                                                 </div>
                                             </div>
                                             <div class="col-md-12 mb-3">
-                                                <label class="form-control-label" for="validationCustom01">Nomor
+                                                <label class="form-control-label" for="nomor">Nomor
                                                     Telephon / HP</label>
-                                                <input type="text" class="form-control" id="validationCustom01"
+                                                <input type="text" class="form-control" id="nomor"
                                                     placeholder="Nomor" value="{{ $user->nomor }}" disabled required>
                                                 <div class="valid-feedback">
                                                     Looks good!
@@ -81,20 +83,20 @@
                                             <div class="row">
                                                 <div class="custom-control custom-radio mb-3 ml-3">
                                                     <input class="custom-control-input" id="lakilaki" name="jenis_kelamin"
-                                                        type="radio" value="laki-laki">
+                                                        type="radio" value="1">
                                                     <label class="custom-control-label" for="lakilaki">Laki-laki</label>
                                                 </div>
                                                 <div class="custom-control custom-radio mb-3 ml-3">
                                                     <input class="custom-control-input" id="perempuan" name="jenis_kelamin"
-                                                        type="radio" value="perempuan">
+                                                        type="radio" value="2">
                                                     <label class="custom-control-label" for="perempuan">Perempuan</label>
                                                 </div>
                                             </div>
                                         @endif
                                         @if ($loker->date_birth === 1)
-                                            <label class="form-control-label" for="validationCustom01">Tempat, Tanggal
+                                            <label class="form-control-label" for="ttl">Tempat, Tanggal
                                                 Lahir</label>
-                                            <input type="date" class="form-control mb-3" id="validationCustom01"
+                                            <input type="date" class="form-control mb-3" id="ttl" name="ttl"
                                                 placeholder="First name" required>
                                             <div class="form-row">
                                                 <div class="col-md-4 mb-3">
@@ -103,7 +105,8 @@
                                                         data-toggle="select" required>
                                                         <option value="" disabled selected>Pilih Provinsi</option>
                                                         @foreach ($provinsi as $p)
-                                                            <option value="{{ $p->id }}">{{ $p->name }}</option>
+                                                            <option value="{{ $p->id }}">{{ $p->name }}
+                                                            </option>
                                                         @endforeach
                                                     </select>
 
@@ -136,10 +139,9 @@
                                         @if ($loker->profile_image === 1)
                                             <div class="form-row">
                                                 <div class="col-md-4 mb-3">
-                                                    <label class="form-control-label"
-                                                        for="validationCustom01">Photo</label>
-                                                    <input type="file" class="form-control" id="validationCustom01"
-                                                        placeholder="First name" value="Mark" required>
+                                                    <label class="form-control-label" for="pasphoto">Photo</label>
+                                                    <input type="file" class="form-control" id="pasphoto"
+                                                        name="pasphoto" placeholder="First name" value="Mark" required>
 
                                                 </div>
                                             </div>
@@ -160,7 +162,7 @@
                                     <div class="form-row">
                                         <div class="col-md-4 mb-3">
                                             <input type="file" class="form-control" id="validationCustom01"
-                                                placeholder="First name" value="Mark" required>
+                                                placeholder="First name" name="resume" required>
 
                                         </div>
                                     </div>

@@ -68,8 +68,8 @@
                                             <i class="ni ni-check-bold"></i>
                                         </div>
                                         <h4 class="h3 text-primary text-uppercase">{{ getPTCabang($l->id_cabang) }}</h4>
-                                        <p class="description mt-3">
-                                            {!! custom_str_limit($l->desc_job) !!}
+                                        <p class="mt-3 bold">
+                                            {{ getNameDept($l->id_dept) }}
                                         </p>
 
                                         <div>

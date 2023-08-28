@@ -57,26 +57,20 @@
                 <ul class="navbar-nav">
                     <li class="nav-item">
                         <a class="nav-link" href="{{ route('masterdata.cabang') }}">
-                            <i class="ni ni-chart-pie-35 text-info"></i>
+                            <i class="fas fa-building"></i>
                             <span class="nav-link-text">Cabang</span>
                         </a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="{{ route('masterdata.dept') }}">
-                            <i class="ni ni-chart-pie-35 text-info"></i>
+                            <i class="fas fa-users"></i>
                             <span class="nav-link-text">Departement</span>
                         </a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="{{ route('masterdata.skill') }}">
-                            <i class="ni ni-chart-pie-35 text-info"></i>
+                            <i class="fas fa-wrench"></i>
                             <span class="nav-link-text">Skill</span>
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="../../pages/calendar.html">
-                            <i class="ni ni-calendar-grid-58 text-red"></i>
-                            <span class="nav-link-text">Point Cek</span>
                         </a>
                     </li>
                 </ul>

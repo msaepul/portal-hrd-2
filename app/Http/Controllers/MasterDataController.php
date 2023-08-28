@@ -46,7 +46,7 @@ class MasterDataController extends Controller
         // Setelah menghapus data, Anda dapat melakukan tindakan lainnya,
         // seperti mengirimkan respon atau mengalihkan pengguna ke halaman lain.
 
-        return redirect()->route('masterdata.departemen')->with('success', 'Data berhasil dihapus');
+        return redirect()->route('masterdata.dept')->with('success', 'Data berhasil dihapus');
     }
 
     public function showListCabang()
@@ -100,6 +100,7 @@ class MasterDataController extends Controller
     // Redirect ke halaman yang sesuai setelah menyimpan data
     return redirect()->route('masterdata.cabang');
     }
+
     public function deletecabang($id)
     {
         $data = Cabang::findOrFail($id);
